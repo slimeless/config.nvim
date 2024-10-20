@@ -20,7 +20,6 @@ require('lazy').setup({
   -- Use `opts = {}` to force a plugin to be loaded.
   --
 
-
   -- modular approach: using `require 'path/name'` will
   -- include a plugin definition from file lua/path/name.lua
 
@@ -36,11 +35,17 @@ require('lazy').setup({
 
   require 'kickstart/plugins/cmp',
 
-  require 'kickstart/plugins/tokyonight',
+  require 'custom/plugins/rustace',
+
+  require 'custom.plugins.undotree',
+
+  require 'custom.plugins.neocodeium',
+
+  require 'kickstart/plugins/gruvbox',
+
+  require 'kickstart/plugins/oil',
 
   require 'kickstart/plugins/todo-comments',
-
-  require 'kickstart/plugins/mini',
 
   require 'kickstart/plugins/treesitter',
 
