@@ -13,7 +13,7 @@ return {
         ['.'] = false,
       },
     }
-    vim.keymap.set({ 'i', 'n' }, '<A-f>', function()
+    vim.keymap.set({ 'i', 'n' }, '<A-y>', function()
       require('neocodeium').accept()
     end)
     vim.keymap.set({ 'i', 'n' }, '<A-w>', function()

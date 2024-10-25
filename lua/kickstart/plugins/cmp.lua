@@ -16,6 +16,50 @@ return {
           end
           return 'make install_jsregexp'
         end)(),
+        config = function()
+          local ls = require 'luasnip'
+          vim.snippet.expand = ls.lsp_expand
+
+          ---@diagnostic disable-next-line: duplicate-set-field
+          vim.snippet.active = function(filter)
+            filter = filter or {}
+            filter.direction = filter.direction or 1
+
+            if filter.direction == 1 then
+              return ls.expand_or_jumpable()
+            else
+              return ls.jumpable(filter.direction)
+            end
+          end
+
+          ---@diagnostic disable-next-line: duplicate-set-field
+          vim.snippet.jump = function(direction)
+            if direction == 1 then
+              if ls.expandable() then
+                return ls.expand_or_jump()
+              else
+                return ls.jumpable(1) and ls.jump(1)
+              end
+            else
+              return ls.jumpable(-1) and ls.jump(-1)
+            end
+          end
+
+          vim.snippet.stop = ls.unlink_current
+          ls.config.set_config {
+            history = true,
+            updateevents = 'TextChanged,TextChangedI',
+            override_builtin = true,
+          }
+
+          vim.keymap.set({ 'i', 's' }, '<c-k>', function()
+            return vim.snippet.active { direction = 1 } and vim.snippet.jump(1)
+          end, { silent = true })
+
+          vim.keymap.set({ 'i', 's' }, '<c-j>', function()
+            return vim.snippet.active { direction = -1 } and vim.snippet.jump(-1)
+          end, { silent = true })
+        end,
         dependencies = {
           -- `friendly-snippets` contains a variety of premade snippets.
           --    See the README about individual language/framework/plugin snippets:
@@ -99,12 +143,16 @@ return {
           disallow_prefix_unmatching = true,
           disallow_symbol_nonprefix_matching = false,
         },
-        mapping = cmp.mapping.preset.insert {
-          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
-          ['<C-Space>'] = cmp.mapping.complete(),
-          ['<C-e>'] = cmp.mapping.abort(),
-          ['<CR>'] = cmp.mapping.confirm { select = true }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+        mapping = {
+          ['<C-n>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
+          ['<C-p>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
+          ['<C-y>'] = cmp.mapping(
+            cmp.mapping.confirm {
+              behavior = cmp.ConfirmBehavior.Insert,
+              select = true,
+            },
+            { 'i', 'c' }
+          ),
         },
         sources = cmp.config.sources({
           { name = 'nvim_lsp_signature_help' },

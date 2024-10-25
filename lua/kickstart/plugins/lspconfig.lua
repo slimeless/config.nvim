@@ -136,7 +136,11 @@ return {
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- gopls = {},
-        -- pyright = {},
+        pyright = {
+          on_attach = function()
+            vim.keymap.set('n', '<leader>R', '<CMD>vsplit | terminal python %<CR>')
+          end,
+        },
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -148,11 +152,15 @@ return {
           -- cmd = {...},
           -- filetypes = { ...},
           -- capabilities = {},
+          on_attach = function()
+            vim.keymap.set('n', '<leader>R', '<CMD>vsplit | terminal nvim -l %<CR>')
+          end,
           settings = {
             Lua = {
               completion = {
                 callSnippet = 'Replace',
               },
+
               -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
               -- diagnostics = { disable = { 'missing-fields' } },
             },
