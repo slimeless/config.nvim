@@ -22,7 +22,17 @@ require('lazy').setup({
 
   -- modular approach: using `require 'path/name'` will
   -- include a plugin definition from file lua/path/name.lua
+  require 'kickstart.plugins.profile',
+
+  require 'custom.plugins.crates',
+
   require 'custom.plugins.codemd',
+
+  require 'custom.plugins.clangd',
+
+  require 'custom.plugins.executeme',
+
+  require 'custom.plugins.watch_plugins',
 
   require 'kickstart/plugins/gitsigns',
 
@@ -45,6 +55,8 @@ require('lazy').setup({
   require 'custom.plugins.neocodeium',
 
   require 'kickstart/plugins/gruvbox',
+
+  -- require 'kickstart/plugins/gruvbuddy',
 
   require 'kickstart/plugins/oil',
 

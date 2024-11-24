@@ -6,6 +6,10 @@ return {
     ncdeium.setup {
       filetypes = {
         rust = false,
+        zig = false,
+        go = false,
+        python = false,
+        c = false,
         oil = false,
         help = false,
         gitcommit = false,

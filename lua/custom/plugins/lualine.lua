@@ -7,7 +7,6 @@ local colors = {
   violet = '#d183e8',
   grey = '#303030',
 }
-
 local diagnostic = {
   'diagnostics',
   sources = { 'nvim_diagnostic' },
